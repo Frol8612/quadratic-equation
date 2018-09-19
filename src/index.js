@@ -1,34 +1,26 @@
 module.exports = function solveEquation(equation) {
-    let arr = equation.split(' ');
-    
-    let a = 0,
-        b = 0,
-        c = 0;
-    a = Number (arr[0]);
- 
-    if (arr[3] == '-') {
-        b = Number (arr[3] + arr[4]);
-    } else {
-        b = Number (arr[4]);
-    }
+    let [a, b, c] = equation.split(' ').map((el, i, arr) => {
+        if (el === '-') {
+            arr[i + 1] = el + arr[i + 1];
+        }
+        return Number(el);
+    }).filter(el => !isNaN(el));
 
-    if (arr[7] == '-') {
-        c = Number (arr[7] + arr[8]);
-    } else {
-        c = Number (arr[8]);
-    }
+    let d = b**2 - (4 * a * c);
 
-    let d = Math.pow(b, 2) - (4 * a *c);
-        
     if (d > 0) {
-        let x = ((-b) + Math.sqrt(d)) / (2 * a),
-            y = ((-b) - Math.sqrt(d)) / (2 * a),
-            newArr = [Math.round(x), Math.round(y)];
-            if (a > 0) {
-                return newArr.reverse();
-            }
-            return newArr;
+
+        let newArr = [
+            Math.round((-b + Math.sqrt(d)) / (2 * a)),
+            Math.round((-b - Math.sqrt(d)) / (2 * a)),
+        ];
+
+        if (a > 0) {
+            return newArr.reverse();
+        }
+        
+        return newArr;
     }
-    
-  // your implementation
-}
+
+    // your implementation
+};
